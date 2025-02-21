@@ -35,6 +35,12 @@ class RayLibJS {
     this.ctx.fillStyle = color;
     this.ctx.fillText(text, x, y);
   }
+
+  clearBackgound(color) {
+    this.ctx.clearRect(0, 10, this.canvas.width, this.canvas.height);
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  }
 }
 
 const ray = new RayLibJS(800, 700);
@@ -42,3 +48,4 @@ ray.drawRectangle(10, 10, 100, 300, "red");
 ray.drawCircle(200, 80, 70, "blue"); // centerX, centerY, radius, color
 ray.drawLine(100, 100, 800, 450, "green"); //startX, startY, endX, endY, color
 ray.drawText("ola mundo", 0, 90, 50, "black"); //text, x, y, fontSize, color
+ray.clearBackgound("blue");
