@@ -8,14 +8,20 @@ class RayLibJS {
 
     this.mouseLeftButton = 0;
     this.mouseRightButton = 2;
-    this.mouseDown = null;
+    this.mouseDown = new Set();
+    this.mousePressed = new Set();
 
     this.canvas.addEventListener("mousedown", (e) => {
-      this.mouseDown = e.button;
+      this.mouseDown.add(e.button);
+      this.mousePressed.add(e.button);
     });
 
-    this.canvas.addEventListener("mouseup", () => {
-      this.mouseDown = null;
+    this.canvas.addEventListener("mouseup", (e) => {
+      this.mouseDown.delete(e.button);
+    });
+
+    this.canvas.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
     });
 
     this.canvas.style.border = "1px solid black";
@@ -57,7 +63,15 @@ class RayLibJS {
   isKeyPressed() {}
 
   isMouseButtonDown(mouseButton) {
-    return this.mouseDown === mouseButton;
+    return this.mouseDown.has(mouseButton);
+  }
+
+  isMouseButtonPressed(mouseButton) {
+    return this.mousePressed.has(mouseButton);
+  }
+
+  endDrawing() {
+    this.mousePressed.clear();
   }
 }
 
@@ -72,11 +86,20 @@ function loop() {
   rl.drawText("ola mundo", 0, 90, 50, "black"); //text, x, y, fontSize, color
 
   if (rl.isMouseButtonDown(rl.mouseLeftButton)) {
-    console.log("Botão Esquerdo Clicado! 🖱");
+    console.log("Botão Esquerdo segurado! 🖱");
   }
   if (rl.isMouseButtonDown(rl.mouseRightButton)) {
-    console.log("Botão Direito Clicado! 🖱");
+    console.log("Botão Direito segurado! 🖱");
   }
+
+  if (rl.isMouseButtonPressed(rl.mouseLeftButton)) {
+    console.log("Botao esquerdo clicado");
+  }
+  if (rl.isMouseButtonPressed(rl.mouseRightButton)) {
+    console.log("Botao direito clicado");
+  }
+
+  rl.endDrawing();
   requestAnimationFrame(loop);
 }
 loop();
