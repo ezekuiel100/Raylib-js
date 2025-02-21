@@ -1,0 +1,1 @@
+This is a JavaScript library inspired by Raylib, designed to provide an easy-to-use API for 2D and 3D game development. It aims to bring Raylib's simplicity and efficiency to JavaScript, allowing developers to create games with minimal setup and intuitive functions.

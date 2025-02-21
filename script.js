@@ -15,9 +15,16 @@ class RayLibJS {
     this.ctx.fillRect(x, y, width, height);
   }
 
-  drawCircle() {}
+  drawCircle(x, y, radius, color) {
+    this.ctx.beginPath();
+    this.ctx.arc(x, y, radius, 0, Math.PI * 2);
+    this.ctx.fillStyle = color;
+    this.ctx.fill();
+  }
+
   drawLine() {}
 }
 
 const ray = new RayLibJS(800, 700);
 ray.drawRectangle(10, 10, 100, 300, "red");
+ray.drawCircle(200, 80, 70, "blue"); // centerX, centerY, radius, color
