@@ -22,9 +22,16 @@ class RayLibJS {
     this.ctx.fill();
   }
 
-  drawLine() {}
+  drawLine(startX, startY, endX, endY, color) {
+    this.ctx.beginPath();
+    this.ctx.moveTo(startX, startY);
+    this.ctx.lineTo(endX, endY);
+    this.ctx.strokeStyle = color;
+    this.ctx.stroke();
+  }
 }
 
 const ray = new RayLibJS(800, 700);
 ray.drawRectangle(10, 10, 100, 300, "red");
 ray.drawCircle(200, 80, 70, "blue"); // centerX, centerY, radius, color
+ray.drawLine(100, 100, 800, 450, "green"); //startX, startY, endX, endY, color
