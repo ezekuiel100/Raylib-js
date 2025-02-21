@@ -29,9 +29,16 @@ class RayLibJS {
     this.ctx.strokeStyle = color;
     this.ctx.stroke();
   }
+
+  drawText(text, x, y, fontSize, color) {
+    this.ctx.font = `${fontSize}px arial`;
+    this.ctx.fillStyle = color;
+    this.ctx.fillText(text, x, y);
+  }
 }
 
 const ray = new RayLibJS(800, 700);
 ray.drawRectangle(10, 10, 100, 300, "red");
 ray.drawCircle(200, 80, 70, "blue"); // centerX, centerY, radius, color
 ray.drawLine(100, 100, 800, 450, "green"); //startX, startY, endX, endY, color
+ray.drawText("ola mundo", 0, 90, 50, "black"); //text, x, y, fontSize, color
