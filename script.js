@@ -6,6 +6,9 @@ class RayLibJS {
     this.canvas.width = width;
     this.canvas.height = height;
 
+    this.lastFrameTime = performance.now();
+    this.fpsHistory = [];
+
     this.mouseLeftButton = 0;
     this.mouseRightButton = 2;
     this.mouseDown = new Set();
@@ -54,6 +57,25 @@ class RayLibJS {
     this.ctx.fillText(text, x, y);
   }
 
+  getFps() {
+    const now = performance.now();
+    const deltaTime = now - this.lastFrameTime;
+    this.lastFrameTime = now;
+
+    let fps = Math.round(1000 / deltaTime);
+
+    this.fpsHistory.push(fps);
+    if (this.fpsHistory.length > 60) {
+      this.fpsHistory.shift();
+    }
+
+    const avgFps =
+      this.fpsHistory.reduce((sum, val) => sum + val, 0) /
+      this.fpsHistory.length;
+
+    return Math.round(avgFps);
+  }
+
   clearBackground(color) {
     this.ctx.clearRect(0, 10, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = color;
@@ -98,6 +120,8 @@ function loop() {
   if (rl.isMouseButtonPressed(rl.mouseRightButton)) {
     console.log("Botao direito clicado");
   }
+
+  rl.drawText(rl.getFps(), 10, 20, 20, "black");
 
   rl.endDrawing();
   requestAnimationFrame(loop);
