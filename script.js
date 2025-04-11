@@ -1,4 +1,5 @@
 import { KeyboardInput } from "./KeyboardInput.js";
+import { MouseInput } from "./MouseInput.js";
 
 class RayLibJS {
   constructor(width, height) {
@@ -13,20 +14,10 @@ class RayLibJS {
 
     this.defineKeyConstants();
     this.keyboard = new KeyboardInput();
+    this.mouse = new MouseInput(this.canvas);
 
     this.mouseLeftButton = 0;
     this.mouseRightButton = 2;
-    this.mouseDown = new Set();
-    this.mousePressed = new Set();
-
-    this.canvas.addEventListener("mousedown", (e) => {
-      this.mouseDown.add(e.button);
-      this.mousePressed.add(e.button);
-    });
-
-    this.canvas.addEventListener("mouseup", (e) => {
-      this.mouseDown.delete(e.button);
-    });
 
     this.canvas.addEventListener("contextmenu", (e) => {
       e.preventDefault();
@@ -45,6 +36,18 @@ class RayLibJS {
 
   isKeyPressed(key) {
     return this.keyboard.isKeyPressed(key);
+  }
+
+  isMouseButtonPressed(mouseButton) {
+    return this.mouse.isMouseButtonPressed(mouseButton);
+  }
+
+  isMouseButtonDown(mouseButton) {
+    return this.mouse.isMouseButtonDown(mouseButton);
+  }
+
+  endDrawing() {
+    return this.mouse.endDrawing();
   }
 
   drawRectangle(x, y, width, height, color) {
@@ -96,18 +99,6 @@ class RayLibJS {
     this.ctx.clearRect(0, 10, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = color;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-  }
-
-  isMouseButtonDown(mouseButton) {
-    return this.mouseDown.has(mouseButton);
-  }
-
-  isMouseButtonPressed(mouseButton) {
-    return this.mousePressed.has(mouseButton);
-  }
-
-  endDrawing() {
-    this.mousePressed.clear();
   }
 }
 
