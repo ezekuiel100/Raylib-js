@@ -1,3 +1,5 @@
+import { KeyboardInput } from "./KeyboardInput.js";
+
 class RayLibJS {
   constructor(width, height) {
     this.canvas = document.createElement("canvas");
@@ -9,8 +11,8 @@ class RayLibJS {
     this.lastFrameTime = performance.now();
     this.fpsHistory = [];
 
-    this.keys = {};
     this.defineKeyConstants();
+    this.keyboard = new KeyboardInput();
 
     this.mouseLeftButton = 0;
     this.mouseRightButton = 2;
@@ -20,14 +22,6 @@ class RayLibJS {
     this.canvas.addEventListener("mousedown", (e) => {
       this.mouseDown.add(e.button);
       this.mousePressed.add(e.button);
-    });
-
-    window.addEventListener("keydown", (e) => {
-      this.keys[e.key] = true;
-    });
-
-    window.addEventListener("keyup", (e) => {
-      this.keys[e.key] = false;
     });
 
     this.canvas.addEventListener("mouseup", (e) => {
@@ -47,6 +41,10 @@ class RayLibJS {
     this.KEY_DOWN = "ArrowDown";
     this.KEY_LEFT = "ArrowLeft";
     this.KEY_RIGHT = "ArrowRight";
+  }
+
+  isKeyPressed(key) {
+    return this.keyboard.isKeyPressed(key);
   }
 
   drawRectangle(x, y, width, height, color) {
@@ -100,10 +98,6 @@ class RayLibJS {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  isKeyPressed(key) {
-    return this.keys[key] || false;
-  }
-
   isMouseButtonDown(mouseButton) {
     return this.mouseDown.has(mouseButton);
   }
@@ -143,7 +137,7 @@ function loop() {
 
   rl.drawText(rl.getFps(), 10, 20, 20, "black");
 
-  console.log(rl.isKeyPressed(rl.KEY_DOWN));
+  rl.isKeyPressed(rl.KEY_DOWN);
 
   rl.endDrawing();
   requestAnimationFrame(loop);
